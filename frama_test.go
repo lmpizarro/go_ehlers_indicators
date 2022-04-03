@@ -2,7 +2,8 @@ package go_ehlers_indicators
 
 import (
 	"fmt"
-	"github.com/MathisWellmann/go_timeseries_generator"
+	"github.com/lmpizarro/go_timeseries_generator"
+	"github.com/lmpizarro/go_ehlers_indicators"
 	"testing"
 )
 
@@ -15,7 +16,7 @@ func TestFRAMAGraph(t *testing.T) {
 		highs[i] = candles[i].High
 		lows[i] = candles[i].Low
 	}
-	frama, err := FRAMA(highs, lows, 16)
+	frama, err := go_FRAMA(highs, lows, 16)
 	if err != nil {
 		t.Error(err)
 	}
