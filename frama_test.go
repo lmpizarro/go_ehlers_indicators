@@ -16,7 +16,7 @@ func TestFRAMAGraph(t *testing.T) {
 		highs[i] = candles[i].High
 		lows[i] = candles[i].Low
 	}
-	frama, err := go_FRAMA(highs, lows, 16)
+	frama, err := go_ehlers_indicators.FRAMA(highs, lows, 16)
 	if err != nil {
 		t.Error(err)
 	}
