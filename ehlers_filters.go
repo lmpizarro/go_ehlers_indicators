@@ -15,10 +15,10 @@ func MOM4(vals []float64) []float64{
 
 	for i := 7; i < len(vals); i++ {
 
-		coef1 := vals[i] - vals[i-4]
-		coef2 := vals[i] - vals[i-5]
-		coef3 := vals[i] - vals[i-6]
-		coef4 := vals[i] - vals[i-7]
+		coef1 := math.Abs(vals[i] - vals[i-4])
+		coef2 := math.Abs(vals[i] - vals[i-5])
+		coef3 := math.Abs(vals[i] - vals[i-6])
+		coef4 := math.Abs(vals[i] - vals[i-7])
 
 		sum_coef := coef1 + coef2 + coef3 + coef4
 

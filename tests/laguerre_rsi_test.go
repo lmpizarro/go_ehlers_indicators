@@ -15,4 +15,6 @@ func TestLaguerreRSI(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+
+	ei.Wrt(vals, lrsi, "data/laguerre_rsi.csv")
 }
