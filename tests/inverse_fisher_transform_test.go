@@ -1,14 +1,14 @@
 package go_ehlers_indicators
 
 import (
-	"fmt"
-	"github.com/MathisWellmann/go_timeseries_generator"
+	"github.com/lmpizarro/go_timeseries_generator"
+	ei "github.com/lmpizarro/go_ehlers_indicators"
 	"testing"
 )
 
 func TestInverseFisherTransform(t *testing.T) {
 	sine := go_timeseries_generator.SineWave(1024)
-	ift := InverseFisherTransform(sine)
+	ift := ei.InverseFisherTransform(sine)
 
 	for i := 0; i < len(ift); i++ {
 		if ift[i] > 1 || ift[i] < -1 {
@@ -19,10 +19,10 @@ func TestInverseFisherTransform(t *testing.T) {
 
 func TestInverseFisherTransformGraph(t *testing.T) {
 	sine := go_timeseries_generator.SineWave(1024)
-	ift := InverseFisherTransform(sine)
+	ift := ei.InverseFisherTransform(sine)
 
-	filename := fmt.Sprintf("img/inverse_fisher_transform.png")
-	err := Plt(ift, filename)
+	filename := "img/inverse_fisher_transform.png"
+	err := ei.Plt(ift, filename)
 	if err != nil {
 		t.Error(err)
 	}

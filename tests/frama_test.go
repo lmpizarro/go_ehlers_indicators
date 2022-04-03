@@ -1,7 +1,6 @@
 package go_ehlers_indicators
 
 import (
-	"fmt"
 	"github.com/lmpizarro/go_timeseries_generator"
 	"github.com/lmpizarro/go_ehlers_indicators"
 	"testing"
@@ -21,8 +20,8 @@ func TestFRAMAGraph(t *testing.T) {
 		t.Error(err)
 	}
 
-	filename := fmt.Sprint("img/frama.png")
-	err = Plt(frama, filename)
+	filename := "img/frama.png"
+	err = go_ehlers_indicators.Plt(frama, filename)
 	if err != nil {
 		t.Error(err)
 	}
