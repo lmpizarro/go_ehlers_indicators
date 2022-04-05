@@ -83,14 +83,17 @@ func EficiencyRatio(vals [] float64, length int) []float64 {
 	return filt
 }
 
+func Alfa(length int) float64{
+	 return 2.0 / (float64(length) + 1.0)
+}
 
 func Kama(vals[] float64, fast_period, slow_period, efficiency_length int) []float64 {
 	filt := make([]float64, len(vals))
 
 	eff := EficiencyRatio(vals, efficiency_length)
 
-	fastest := 2.0 / (float64(fast_period) + 1.0)
-	slowest := 2.0 / (float64(slow_period) + 1.0)
+	fastest := Alfa(fast_period) 
+	slowest := Alfa(slow_period) 
 
 	for i := 1; i < len(vals); i++ {
 		s := math.Pow((eff[i] * (fastest - slowest) + slowest), 2)
@@ -116,3 +119,50 @@ func Vidya(vals[] float64, fast_period, slow_period int) []float64 {
 
 	return filt
 }
+
+func Zema(vals[] float64,  length_alfa, length_k, delay int) []float64 {
+	filt := make([]float64, len(vals))
+
+	alfa := Alfa(length_alfa)
+	k := Alfa(length_k)
+	
+	for i := delay; i < len(vals); i++ {
+		momentum := vals[i] - vals[i-delay]
+		filt[i] = alfa * (vals[i] + k * (momentum)) + (1 - alfa) * filt[i-1]
+	}
+
+	return filt
+}
+
+func SimpleKalman(measurement[] float64) [] float64{
+	filt := make([]float64, len(measurement))
+
+	
+	uncertain_estimate := measurement[0] // Pn,n-1 
+	uncertain_measu := measurement[0]    // Rn
+	kg := uncertain_estimate / (uncertain_estimate + uncertain_measu)
+
+	for i := 1; i < len(measurement); i++{
+		filt[i] = filt[i-1] + kg * (measurement[i] - filt[i-1])
+		// uncertain_estimate = (1 - kg) * uncertain_estimate
+		uncertain_measu = 20 * math.Abs(measurement[i] - measurement[i-1])
+		kg = uncertain_estimate / (uncertain_estimate + uncertain_measu)
+	}
+	return filt
+}
+
+/*
+    State Extrapolation Equations 
+
+	x_n+1 = x_n + Dt * v_n`
+	v_n+1 = v_n
+
+	ex_n,n-1 = ex_n-1,n-1 + Dt * ev_n-1,n-1
+	ev_n,n-1 = ev_n-1,n-1
+
+	State Update Equation
+
+	ev_n,n = ev_n,n-1 + beta * (z_n - ex_n,n-1) / Dt
+	ex_n,n = ex_n,n-1 + alfa * (z_n - ex_n,n-1)
+
+*/
